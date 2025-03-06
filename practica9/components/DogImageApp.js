@@ -1,5 +1,9 @@
-import React, { useState} from "react";
-import { View, Text, Image, FlatList, TextInput, Button, StyleSheet } from "react-native";
+import React, { useState } from "react";
+import { View, StyleSheet} from "react-native";
+import BreedInput from "./BreedInput";
+import ImageList from "./ImageList";
+import RandomImage from "./RandomImage";
+import { fetchBreedImages, fetchRandomImage } from "./api";
 import styles from "../styles/styles";
 
 const DogImageApp = () => {
@@ -7,53 +11,23 @@ const DogImageApp = () => {
   const [images, setImages] = useState([]);
   const [randomImage, setRandomImage] = useState(null);
 
-  const fetchBreedImages = async () => {
-    if (!breed) return;
-    try {
-      const response = await fetch(`https://dog.ceo/api/breed/${breed}/images/random/5`);
-      const data = await response.json();
-      setImages(data.message);
-    } catch (error) {
-      console.error("Error fetching breed images:", error);
-    }
+  const handleFetchBreedImages = async () => {
+    const images = await fetchBreedImages(breed);
+    setImages(images);
   };
 
-  const fetchRandomImage = async () => {
-    try {
-      const response = await fetch("https://dog.ceo/api/breeds/image/random");
-      const data = await response.json();
-      setRandomImage(data.message);
-    } catch (error) {
-      console.error("Error fetching random image:", error);
-    }
+  const handleFetchRandomImage = async () => {
+    const image = await fetchRandomImage();
+    setRandomImage(image);
   };
 
   return (
     <View style={styles.container}>
-
-        <Text style={styles.title}>Imagen aleatoria</Text>
-        <Button title="Generar imagen aleatoria" onPress={fetchRandomImage} />
-        {randomImage && <Image source={{ uri: randomImage }} style={styles.image} />}
-
-        <Text style={styles.title}>Buscar por raza</Text>
-        <TextInput
-        style={styles.input}
-        placeholder="Ingresa la raza"
-        value={breed}
-        onChangeText={setBreed}
-        />
-        <Button title="Buscar" onPress={fetchBreedImages} />
-        <FlatList
-        data={images}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item }) => <Image source={{ uri: item }} style={styles.image} />}
-        />
-
-      
+      <BreedInput breed={breed} setBreed={setBreed} fetchBreedImages={handleFetchBreedImages} />
+      <ImageList images={images} />
+      <RandomImage randomImage={randomImage} fetchRandomImage={handleFetchRandomImage} />
     </View>
   );
 };
-
-
 
 export default DogImageApp;
