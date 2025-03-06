@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet} from "react-native";
+import { View, Text} from "react-native";
 import BreedInput from "./BreedInput";
 import ImageList from "./ImageList";
 import RandomImage from "./RandomImage";
@@ -22,7 +22,9 @@ const DogImageApp = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={styles.box}>
+      <Text style ={{fontSize: 28, paddingBottom: '5%'}}>¡Bienvenido a PAWSHELTER! 🐾</Text>
+      <Text style={{fontSize: 16, padding: '3%', marginBottom: '3%'}}>Nos alegra que estés aquí. En nuestra comunidad, ayudamos a perros en busca de un hogar a encontrar una familia amorosa. 💙</Text>
       <BreedInput breed={breed} setBreed={setBreed} fetchBreedImages={handleFetchBreedImages} />
       <ImageList images={images} />
       <RandomImage randomImage={randomImage} fetchRandomImage={handleFetchRandomImage} />

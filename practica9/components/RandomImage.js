@@ -1,11 +1,14 @@
 import React from "react";
 import { View, Image, Button } from "react-native";
+import styles from "../styles/styles";
 
 const RandomImage = ({ randomImage, fetchRandomImage }) => {
   return (
-    <View>
-      {randomImage && <Image source={{ uri: randomImage }} style={{ width: 100, height: 100 }} />}
-      <Button title="Perro Random" onPress={fetchRandomImage} />
+    <View style={styles.randomBox}>
+      <View style={styles.randomButton}>
+      <Button title="Perro Random" onPress={fetchRandomImage} color="#fff"/>
+      </View>
+      {randomImage && <Image source={{ uri: randomImage }} style={{ width: '70%', height: '50%' , borderRadius: 15}} />}
     </View>
   );
 };
